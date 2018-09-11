@@ -1,7 +1,9 @@
 # adminer
 Test di utilizzo Docker e GitHub
 
-this is adminer full image (mysql, pgsql, sqlite, mongo) based on Alpine Linux:
+Reference : https://www.adminer.org/en/ and https://hub.docker.com/r/dockette/adminer/ 
+
+This is adminer full image (mysql, pgsql, sqlite, mongo) based on Alpine Linux:
 
 
 # Usage
