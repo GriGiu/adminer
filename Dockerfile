@@ -1,6 +1,6 @@
 FROM dockette/alpine:3.5
 
-MAINTAINER Milan Sulc <sulcmil@gmail.com>
+MAINTAINER Gri Giu <grigiu@gmail.com>
 
 ENV ADMINER_VERSION=4.6.3
 ENV MEMORY=256M
