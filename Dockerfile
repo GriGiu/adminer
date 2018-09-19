@@ -11,9 +11,6 @@ RUN apt-get update &&  \
     apt-get install -y \
     wget ca-certificates apt-transport-https 
     
-RUN wget -q https://packages.sury.org/php/apt.gpg -O- |  apt-key add - 
-RUN echo "deb https://packages.sury.org/php/ stretch main" |  tee /etc/apt/sources.list.d/php.list
-
 RUN apt-get update &&  \
      apt-get install -y \
      php5.6 php5.6-cli php5.6-common php5.6-curl php5.6-mbstring php5.6-mysql php5.6-xml 
