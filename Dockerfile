@@ -2,39 +2,26 @@ FROM debian:stretch-slim
 
 MAINTAINER Gri Giu <grigiu@gmail.com>
 
+ENV ADMINER_VERSION=4.6.3
+ENV MEMORY=256M
+ENV UPLOAD=2048M
+
 RUN apt-get update &&  \
     apt-get upgrade && \
     apt-get install -y \
-    nginx supervisor adminer wget
-##    nginx supervisor php5-fpm php5-cli \
-##    php5-pgsql php5-mysql php5-sqlite php5-mssql \
-##    wget
-
-# add adminer as the only nginx site
-ADD adminer.nginx.conf /etc/nginx/sites-available/adminer
-RUN ln -s /etc/nginx/sites-available/adminer /etc/nginx/sites-enabled/adminer
-RUN rm /etc/nginx/sites-enabled/default
-
-# install adminer and default theme
-##RUN mkdir /var/www
-#RUN wget http://www.adminer.org/latest.php -O /var/www/index.php
-#RUN wget https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css -O /var/www/adminer.css
-WORKDIR /var/www
-RUN chown www-data:www-data -R /var/www
+    wget php7 ca-certificates 
+ 
 
 
-# tune PHP settings for uploading large dumps
-RUN echo "upload_max_filesize = 2000M" >> /etc/php5/upload_large_dumps.ini \
- && echo "post_max_size = 2000M"       >> /etc/php5/upload_large_dumps.ini \
- && echo "memory_limit = -1"           >> /etc/php5/upload_large_dumps.ini \
- && echo "max_execution_time = 0"      >> /etc/php5/upload_large_dumps.ini \
- && ln -s ../../upload_large_dumps.ini /etc/php5/fpm/conf.d \
- && ln -s ../../upload_large_dumps.ini /etc/php5/cli/conf.d
-
-# expose only nginx HTTP port
+WORKDIR srv
 EXPOSE 80
 
-ADD freetds.conf /etc/freetds/freetds.conf
+CMD /usr/bin/php \
+    -d memory_limit=$MEMORY \
+    -d upload_max_filesize=$UPLOAD \
+    -d post_max_size=$UPLOAD \
+    -S 0.0.0.0:80
 
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+#ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+C#MD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
