@@ -1,4 +1,4 @@
-FROM dockette/alpine:3.5
+FROM debian:stretch-slim
 
 MAINTAINER Gri Giu <grigiu@gmail.com>
 
