@@ -9,7 +9,6 @@ ENV UPLOAD=2048M
 RUN apt-get update && apt-get upgrade && \
     apt-get install \
         wget \
-        php5 \
         ca-certificates && \
         wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
