@@ -13,9 +13,7 @@ RUN apt-get update &&  \
     
 RUN apt-get update &&  \
      apt-get install -y \
-     php5.6  php5.6-common php5.6-curl php5.6-mbstring php5.6-mysql php5.6-xml 
-# wget php7 php7-session php7-msqli php7-pgsql php7-mongodb ca-certificates 
- 
+     php5.6  php5.6-common   
 
 RUN    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
