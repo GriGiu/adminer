@@ -2,12 +2,13 @@ FROM debian:stretch-slim
 
 MAINTAINER Gri Giu <grigiu@gmail.com>
 
-ENV ADMINER_VERSION=4.6.3
 ENV MEMORY=256M
 ENV UPLOAD=2048M
 
 RUN apt-get update && apt-get upgrade && \
     apt-get install -y adminer 
+
+RUN dpkg-query -l | grep adminer *
 
 WORKDIR srv
 EXPOSE 80
