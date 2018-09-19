@@ -9,7 +9,8 @@ ENV UPLOAD=2048M
 RUN apt-get update &&  \
     apt-get upgrade && \
     apt-get install -y \
-    wget php7php7-session php7-msqli php7-pgsql php7-mongodb ca-certificates 
+    wget php7 ca-certificates 
+# wget php7 php7-session php7-msqli php7-pgsql php7-mongodb ca-certificates 
  
 
 
