@@ -11,20 +11,16 @@ RUN apt-get update &&  \
     apt-get install -y \
     wget ca-certificates apt-transport-https 
     
-RUN wget -q https://packages.sury.org/php/apt.gpg -O- | sudo apt-key add - 
-RUN echo "deb https://packages.sury.org/php/ stretch main" | sudo tee /etc/apt/sources.list.d/php.list
+RUN wget -q https://packages.sury.org/php/apt.gpg -O- |  apt-key add - 
+RUN echo "deb https://packages.sury.org/php/ stretch main" |  tee /etc/apt/sources.list.d/php.list
 
 RUN apt-get update &&  \
      apt-get install -y \
      php5.6 php5.6-cli php5.6-common php5.6-curl php5.6-mbstring php5.6-mysql php5.6-xml 
 # wget php7 php7-session php7-msqli php7-pgsql php7-mongodb ca-certificates 
  
-RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://github.com/sgerrand/alpine-pkg-php5-mongo/releases/download/1.6.14-r0/sgerrand.rsa.pub && \
-#    wget https://github.com/sgerrand/alpine-pkg-php5-mongo/releases/download/1.6.14-r0/php5-mongo-1.6.14-r0.apk && \
-#         apk add php5-mongo-1.6.14-r0.apk && \
-    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php && \
-#    apk del wget ca-certificates && \
-    rm -rf /var/cache/apk/*
+
+RUN    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
 WORKDIR srv
 EXPOSE 80
