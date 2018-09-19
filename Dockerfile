@@ -2,7 +2,9 @@ FROM debian:stretch-slim
 
 MAINTAINER Gri Giu <grigiu@gmail.com>
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update &&  \
+    apt-get upgrade && \
+    apt-get install -y \
     nginx supervisor php5-fpm php5-cli \
     php5-pgsql php5-mysql php5-sqlite php5-mssql \
     wget
