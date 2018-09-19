@@ -9,7 +9,14 @@ ENV UPLOAD=2048M
 RUN apt-get update &&  \
     apt-get upgrade && \
     apt-get install -y \
-    wget php5 php5-pgsql php5-mysql ca-certificates 
+    wget ca-certificates apt-transport-https 
+    
+RUN wget -q https://packages.sury.org/php/apt.gpg -O- | sudo apt-key add - 
+RUN echo "deb https://packages.sury.org/php/ stretch main" | sudo tee /etc/apt/sources.list.d/php.list
+
+RUN apt-get update &&  \
+     apt-get install -y \
+     php5.6 php5.6-cli php5.6-common php5.6-curl php5.6-mbstring php5.6-mysql php5.6-xml 
 # wget php7 php7-session php7-msqli php7-pgsql php7-mongodb ca-certificates 
  
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://github.com/sgerrand/alpine-pkg-php5-mongo/releases/download/1.6.14-r0/sgerrand.rsa.pub && \
