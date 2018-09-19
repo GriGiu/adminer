@@ -13,7 +13,7 @@ RUN apt-get update &&  \
     
 RUN apt-get update &&  \
      apt-get install -y \
-     php5.6  php5.6-common   
+     php5.6  
 
 RUN    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
