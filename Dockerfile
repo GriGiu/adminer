@@ -21,6 +21,7 @@ RUN wget https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css -
 WORKDIR /var/www
 RUN chown www-data:www-data -R /var/www
 
+
 # tune PHP settings for uploading large dumps
 RUN echo "upload_max_filesize = 2000M" >> /etc/php5/upload_large_dumps.ini \
  && echo "post_max_size = 2000M"       >> /etc/php5/upload_large_dumps.ini \
