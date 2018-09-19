@@ -8,8 +8,6 @@ ENV UPLOAD=2048M
 RUN apt-get update && apt-get upgrade && \
     apt-get install -y adminer 
 
-RUN dpkg-query -l | grep adminer *
-
 WORKDIR srv
 EXPOSE 80
 
