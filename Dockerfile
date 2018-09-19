@@ -7,7 +7,7 @@ ENV MEMORY=256M
 ENV UPLOAD=2048M
 
 RUN apt-get update && apt-get upgrade && \
-    apt-get install \
+    apt-get install -y \
         wget \
         ca-certificates && \
         wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
