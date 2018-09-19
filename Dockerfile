@@ -13,7 +13,7 @@ RUN apt-get update && apt-get upgrade && \
         php5 \
         php5-pgsql \
         php5-mysql && \
-        wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php && \
+        wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
 WORKDIR srv
 EXPOSE 80
