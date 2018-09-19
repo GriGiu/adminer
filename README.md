@@ -1,22 +1,29 @@
-# adminer
-Test di utilizzo Docker e GitHub
+# grigiu/adminer
 
-Reference : https://www.adminer.org/en/ and https://hub.docker.com/r/dockette/adminer/ 
+[Adminer](https://www.adminer.org/) is a full-featured database management tool for the web. It is a lightweight alternative to setting up phpMyAdmin. This is a [Docker](https://www.docker.com/) image that eases setup.
 
-This is adminer full image (mysql, pgsql, sqlite, mongo) based on Alpine Linux:
+![](http://www.adminer.org/static/designs/hever/screenshot.png)
 
+See also [online demo](http://adminer.sourceforge.net/adminer.php?username=).
 
-# Usage
-docker run \
-    --rm
-    -p 8000:80
-    grigiu/adminer:latest
+## Usage
 
-By default container is running with MEMORY=256M (memory_limit) and UPLOAD=2048M (upload_max_filesize, post_max_size). You can override it.
+This docker image is available as an [automated build on Docker Hub](https://hub.docker.com/r/grigiu/adminer/), so there's no setup required. Using this image for the first time will start a download automatically. Further runs will be immediate, as the image will be cached locally.
 
-docker run \
-    --rm
-    -p 8000:80
-    -e MEMORY=512M
-    -e UPLOAD=4096M
-    grigiu/adminer:latest
+The recommended way to run this container looks like this:
+
+```bash
+$ docker run -d -p 80:80 grigiu/adminer
+```
+
+The above example exposes the Adminer webinterface on port 80, so that you can now browse to:
+
+```
+http://localhost/
+```
+
+This is a rather common setup following docker's conventions:
+
+* `-d` will run a detached instance in the background
+* `-p {OutsidePort}:80` will bind the webserver to the given outside port
+* `grigiu/adminer` the name of this docker image
