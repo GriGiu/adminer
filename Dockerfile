@@ -7,7 +7,7 @@ ENV MEMORY=256M
 ENV UPLOAD=2048M
 
 RUN apt-get update && apt-get upgrade && \
-    apt-get add \
+    apt-get install \
         wget \
         ca-certificates \
         php5 \
