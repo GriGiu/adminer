@@ -5,9 +5,10 @@ MAINTAINER Gri Giu <grigiu@gmail.com>
 RUN apt-get update &&  \
     apt-get upgrade && \
     apt-get install -y \
-    nginx supervisor php5-fpm php5-cli \
-    php5-pgsql php5-mysql php5-sqlite php5-mssql \
-    wget
+    nginx supervisor adminer wget
+#    nginx supervisor php5-fpm php5-cli \
+#    php5-pgsql php5-mysql php5-sqlite php5-mssql \
+#    wget
 
 # add adminer as the only nginx site
 ADD adminer.nginx.conf /etc/nginx/sites-available/adminer
@@ -16,8 +17,8 @@ RUN rm /etc/nginx/sites-enabled/default
 
 # install adminer and default theme
 RUN mkdir /var/www
-RUN wget http://www.adminer.org/latest.php -O /var/www/index.php
-RUN wget https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css -O /var/www/adminer.css
+#RUN wget http://www.adminer.org/latest.php -O /var/www/index.php
+#RUN wget https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css -O /var/www/adminer.css
 WORKDIR /var/www
 RUN chown www-data:www-data -R /var/www
 
