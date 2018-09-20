@@ -1,7 +1,8 @@
 # grigiu/adminer
 
 [Adminer](https://www.adminer.org/) is a full-featured database management tool for the web. It is a lightweight alternative to setting up phpMyAdmin. This is a [Docker](https://www.docker.com/) image that eases setup.
-This images is based on Debian Strecht
+
+This images is based on Debian Stretch-slim 
 
 ![](http://www.adminer.org/static/designs/hever/screenshot.png)
 
