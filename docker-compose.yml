@@ -1,7 +1,13 @@
-version: '3.1'
-   services:
-       adminer:
-           image: grigiu/adminer
-           restart: always
-           ports:
-              - 80:80
+adminer:
+  image: grigiu/adminer
+
+  privileged: true
+
+  ports:
+  - "80:80"
+
+  restart: always
+
+### Replace enviroment variable with own configuration
+  environment:
+  - TERM=vt220                               
