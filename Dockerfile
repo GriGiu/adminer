@@ -9,11 +9,7 @@ ENV UPLOAD=2048M
 RUN apt-get update &&  \
     apt-get upgrade && \
     apt-get install -y \
-    wget ca-certificates apt-transport-https 
-    
-RUN apt-get update &&  \
-     apt-get install -y \
-     php7.0  
+    wget ca-certificates apt-transport-https php7.0 php7.0-mysql php7.0-pgsql php-mongodb 
 
 RUN    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
@@ -25,7 +21,3 @@ CMD /usr/bin/php \
     -d upload_max_filesize=$UPLOAD \
     -d post_max_size=$UPLOAD \
     -S 0.0.0.0:80
-
-
-#ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-#CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
