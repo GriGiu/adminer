@@ -6,10 +6,10 @@ ENV ADMINER_VERSION=4.7.3
 ENV MEMORY=256M
 ENV UPLOAD=2048M
 
-RUN apt-get update &&  \
-    apt-get upgrade && \
-    apt-get install -y \
-    wget ca-certificates 
+RUN apt-get update 
+RUN    apt-get upgrade
+RUN    apt-get install -y 
+RUN    wget ca-certificates 
 RUN wget    apt-transport-https 
 RUN wget php7.0 
 RUN wget php7.0-mysql 
