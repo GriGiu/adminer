@@ -9,7 +9,12 @@ ENV UPLOAD=2048M
 RUN apt-get update &&  \
     apt-get upgrade && \
     apt-get install -y \
-    wget ca-certificates apt-transport-https php7.0 php7.0-mysql php7.0-pgsql php-mongodb 
+    wget ca-certificates 
+RUN wget    apt-transport-https 
+RUN wget php7.0 
+RUN wget php7.0-mysql 
+RUN wget php7.0-pgsql 
+RUN wget php-mongodb 
 
 RUN    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
