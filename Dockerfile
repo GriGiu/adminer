@@ -2,7 +2,7 @@ FROM debian:stretch-slim
 
 MAINTAINER Gri Giu <grigiu@gmail.com>
 
-ENV ADMINER_VERSION=4.6.3
+ENV ADMINER_VERSION=4.7.3
 ENV MEMORY=256M
 ENV UPLOAD=2048M
 
