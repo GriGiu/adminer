@@ -8,9 +8,9 @@ ENV UPLOAD=2048M
 
 RUN apt-get update 
 RUN    apt-get upgrade -y
-RUN    apt-get install -y wget ca-certificates apt-transport-https
+RUN    apt-get install -y wget ca-certificates apt-transport-https wget php7.0 
 ## RUN wget    apt-transport-https 
-RUN wget php7.0 
+## RUN wget php7.0 
 RUN wget php7.0-mysql 
 RUN wget php7.0-pgsql 
 RUN wget php-mongodb 
