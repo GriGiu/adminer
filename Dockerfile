@@ -6,15 +6,8 @@ ENV ADMINER_VERSION=4.7.3
 ENV MEMORY=256M
 ENV UPLOAD=2048M
 
-RUN apt-get update 
-RUN    apt-get upgrade -y
-RUN    apt-get install -y wget ca-certificates apt-transport-https wget php7.0 php7.0-mysql php7.0-pgsql php-mongodb
-## RUN wget    apt-transport-https 
-## RUN wget php7.0 
-## RUN wget php7.0-mysql 
-## RUN wget php7.0-pgsql 
-## RUN wget php-mongodb 
-
+RUN apt-get update && apt-get upgrade -y 
+RUN apt-get install -y wget ca-certificates apt-transport-https wget php7.0 php7.0-mysql php7.0-pgsql php-mongodb
 RUN    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
 
 WORKDIR srv
