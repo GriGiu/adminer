@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:bookworm-slim
 
 MAINTAINER Gri Giu <grillo.giuseppe@gmail.com>
 
