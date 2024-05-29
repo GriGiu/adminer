@@ -1,59 +1,62 @@
-FROM debian:bookworm-slim
+FROM debian:bullseye
 
-MAINTAINER Gri Giu <grillo.giuseppe@gmail.com>
+STOPSIGNAL SIGINT
 
-ENV ADMINER_VERSION=4.8.1
-ENV MEMORY=256M
-ENV UPLOAD=2048M
-ENV DEBIAN_FRONTEND noninteractive
-ENV PHP_VERSION 8.1
-ENV NGINX_WEBROOT /srv/www
+RUN	export DEBIAN_FRONTEND="noninteractive" \
+&&	set -x \
+&&	apt-get update \
+&&	apt-get install -y \
+		php7.4-cli \
+		php7.4-fpm \
+		php7.4-mbstring \
+		php7.4-mysql \
+		php7.4-odbc \
+		php7.4-pdo-dblib \
+		php7.4-pgsql \
+		php7.4-sqlite3 \
+&&	rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -q -y \
-       gnupg2 dirmngr curl apt-transport-https lsb-release ca-certificates \
-    && apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-    && echo "deb https://nginx.org/packages/mainline/debian/ $(lsb_release -sc) nginx" >> /etc/apt/sources.list \
-    && curl -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
-    && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list \
-    && apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -q -y \
-        gettext-base \
-        nginx \
-        php${PHP_VERSION}-fpm \
-        php${PHP_VERSION}-cli \
-        php${PHP_VERSION}-common \
-        php${PHP_VERSION}-json \
-        php${PHP_VERSION}-opcache \
-        php${PHP_VERSION}-readline \
-        php${PHP_VERSION}-mbstring \
-        php${PHP_VERSION}-curl \
-        php${PHP_VERSION}-memcached \
-        php${PHP_VERSION}-imagick \
-        php${PHP_VERSION}-gd \
-        php${PHP_VERSION}-mysql \
-        php${PHP_VERSION}-zip \
-        php${PHP_VERSION}-pgsql \
-        php${PHP_VERSION}-intl \
-        php${PHP_VERSION}-xml \
-        php${PHP_VERSION}-redis \
-        php${PHP_VERSION}-exif \
-        php${PHP_VERSION}-bcmath \
-        php${PHP_VERSION}-xmlreader \
-    && echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d \
-    && chown -R nginx:nginx /etc/nginx /etc/php/${PHP_VERSION}/fpm /etc/php/${PHP_VERSION}/cli \
-    && rm -rf /etc/nginx/conf.d/default.conf \
-    && rm /usr/share/nginx/html/* \
-    && apt-get purge -y php{$PHP_VERSION}-dev git make python python3 perl; apt-get autoremove -y \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN	echo "upload_max_filesize = 128M" >> /etc/php/7.4/cli/conf.d/0-upload_large_dumps.ini \
+&&	echo "post_max_size = 128M" >> /etc/php/7.4/cli/conf.d/0-upload_large_dumps.ini \
+&&	echo "memory_limit = 1G" >> /etc/php/7.4/cli/conf.d/0-upload_large_dumps.ini \
+&&	echo "max_execution_time = 600" >> /etc/php/7.4/cli/conf.d/0-upload_large_dumps.ini \
+&&	echo "max_input_vars = 5000" >> /etc/php/7.4/cli/conf.d/0-upload_large_dumps.ini \
+&&	echo "variables_order = \"EGPCS\"" >> /etc/php/7.4/cli/conf.d/0-env.ini \
+&&	cp /etc/php/7.4/cli/conf.d/0-upload_large_dumps.ini /etc/php/7.4/fpm/conf.d/0-upload_large_dumps.ini
 
-RUN    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php 
+RUN	groupadd -r adminer \
+&&	useradd -r -g adminer adminer \
+&&	mkdir -p /var/www/html \
+&&	mkdir /var/www/html/plugins-enabled \
+&&	chown -R adminer:adminer /var/www/html
 
-WORKDIR srv
-EXPOSE 80
+WORKDIR /var/www/html
 
-CMD /usr/bin/php \
-    -d memory_limit=$MEMORY \
-    -d upload_max_filesize=$UPLOAD \
-    -d post_max_size=$UPLOAD \
-    -S 0.0.0.0:80
+COPY	*.php /var/www/html/
+
+ENV	ADMINER_VERSION 4.8.1
+ENV	ADMINER_DOWNLOAD_SHA256 2fd7e6d8f987b243ab1839249551f62adce19704c47d3d0c8dd9e57ea5b9c6b3
+ENV	ADMINER_COMMIT 1f173e18bdf0be29182e0d67989df56eadea4754
+
+RUN	export DEBIAN_FRONTEND="noninteractive" \
+&&	set -x \
+&&	buildDeps='git curl ca-certificates' \
+&&	apt-get update \
+&&	apt-get install -y $buildDeps --no-install-recommends \
+&&	rm -rf /var/lib/apt/lists/* \
+&&	curl -fsSL "https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php" -o adminer.php \
+&&	echo "$ADMINER_DOWNLOAD_SHA256  adminer.php" |sha256sum -c - \
+&&	git clone --recurse-submodules=designs --depth 1 --shallow-submodules --branch "v$ADMINER_VERSION" https://github.com/vrana/adminer.git /tmp/adminer \
+&&	commit="$(git -C /tmp/adminer/ rev-parse HEAD)" \
+&&	[ "$commit" = "$ADMINER_COMMIT" ] \
+&&	cp -r /tmp/adminer/designs/ /tmp/adminer/plugins/ . \
+&&	rm -rf /tmp/adminer/ \
+&&	apt-get purge -y --auto-remove $buildDeps
+
+COPY	entrypoint.sh /usr/local/bin/
+ENTRYPOINT	[ "entrypoint.sh" ]
+
+USER	adminer
+CMD	[ "php", "-S", "[::]:8080", "-t", "/var/www/html" ]
+
+EXPOSE 8080
