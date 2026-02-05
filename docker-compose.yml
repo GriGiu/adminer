@@ -1,13 +1,11 @@
-adminer:
-  image: grigiu/adminer
-
-  privileged: true
-
-  ports:
-  - "80:80"
-
-  restart: always
-
-### Replace enviroment variable with own configuration
-  environment:
-  - TERM=vt220                               
+services:
+  adminer:
+    build: .
+    image: grigiu/adminer:5.4.1
+    container_name: adminer
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      MEMORY: 256M
+      UPLOAD: 2048M

@@ -1,26 +1,25 @@
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
-MAINTAINER Gri Giu <grillo.giuseppe@gmail.com>
+LABEL maintainer="Gri Giu <grillo.giuseppe@gmail.com>"
 
-ENV ADMINER_VERSION=4.8.1
-ENV MEMORY=256M
-ENV UPLOAD=2048M
-ENV DEBIAN_FRONTEND=noninteractive
+ENV ADMINER_VERSION=5.4.1 \
+    MEMORY=256M \
+    UPLOAD=2048M \
+    DEBIAN_FRONTEND=noninteractive
 
-# Unico RUN per aggiornamenti, installazioni e pulizia
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-        wget \
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
         ca-certificates \
-        apt-transport-https \
-        php7.3 \
-        php7.3-mysql \
-        php7.3-pgsql \
-        php-mongodb && \
-    wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+        curl \
+        php-cli \
+        php-mysql \
+        php-pgsql \
+        php-sqlite3 \
+        php-mongodb \
+    && curl -fsSL "https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php" -o /srv/index.php \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /srv
 EXPOSE 80

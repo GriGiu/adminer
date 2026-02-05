@@ -1,35 +1,56 @@
 # grigiu/adminer
 
-[Adminer](https://www.adminer.org/) is a full-featured database management tool for the web. It is a lightweight alternative to setting up phpMyAdmin. This is a [Docker](https://www.docker.com/) image that eases setup.
+[Adminer](https://www.adminer.org/) is a full-featured database management tool for the web. It is a lightweight alternative to phpMyAdmin.
 
-This images is based on Debian Stretch-slim 
+This repository provides a Docker image based on Debian Bookworm with **Adminer 5.4.1**.
 
 ![](http://www.adminer.org/static/designs/hever/screenshot.png)
 
-See also [online demo](http://adminer.sourceforge.net/adminer.php?username=).
-
-## Usage
-
-This docker image is available as an [automated build on Docker Hub](https://hub.docker.com/r/grigiu/adminer/), so there's no setup required. Using this image for the first time will start a download automatically. Further runs will be immediate, as the image will be cached locally.
-
-The recommended way to run this container looks like this:
+## Build locale
 
 ```bash
-$ docker run -d -p 80:80 grigiu/adminer
+docker build -t grigiu/adminer:5.4.1 .
 ```
-or docker-compose
+
+## Avvio locale
+
 ```bash
-$ docker-compose up -d
+docker run -d --name adminer -p 8080:80 grigiu/adminer:5.4.1
 ```
 
-The above example exposes the Adminer webinterface on port 80, so that you can now browse to:
+Oppure con Docker Compose:
 
+```bash
+docker compose up -d
 ```
-http://localhost/
+
+Poi apri:
+
+```text
+http://localhost:8080
 ```
 
-This is a rather common setup following docker's conventions:
+## Variabili ambiente
 
-* `-d` will run a detached instance in the background
-* `-p {OutsidePort}:80` will bind the webserver to the given outside port
-* `grigiu/adminer` the name of this docker image
+- `MEMORY` (default: `256M`)
+- `UPLOAD` (default: `2048M`)
+
+## Pipeline DevOps GitHub (build container)
+
+La pipeline è definita in `.github/workflows/docker-publish.yml` e fa:
+
+1. Build multi-arch (`linux/amd64`, `linux/arm64`) con Buildx.
+2. Push automatico su **GHCR** (`ghcr.io/<owner>/<repo>`) su branch di default e tag `v*.*.*`.
+3. Push opzionale su **Docker Hub** se configuri variabili/segreti.
+
+### Configurazione richiesta per Docker Hub (opzionale)
+
+Nel repository GitHub configura:
+
+- **Repository Variable**
+  - `DOCKERHUB_IMAGE` (es. `grigiu/adminer`)
+- **Repository Secrets**
+  - `DOCKERHUB_USERNAME`
+  - `DOCKERHUB_TOKEN`
+
+Se `DOCKERHUB_IMAGE` non è impostata, la pipeline pubblica solo su GHCR.
