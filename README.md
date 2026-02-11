@@ -17,6 +17,11 @@ docker build -t grigiu/adminer:5.4.1 .
 ```bash
 docker run -d --name adminer -p 8080:80 grigiu/adminer:5.4.1
 ```
+oppure se scaricato da ghcr
+
+```bash
+docker run -d --name adminer -p 8088:80 ghcr.io/grigiu/adminer:5.4.1
+```
 
 Oppure con Docker Compose:
 
