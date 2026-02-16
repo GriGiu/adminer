@@ -2,7 +2,7 @@ FROM debian:bookworm-slim
 
 LABEL maintainer="Gri Giu <grillo.giuseppe@gmail.com>"
 
-ENV ADMINER_VERSION=5.4.1 \
+ENV ADMINER_VERSION=5.4.2 \
     MEMORY=256M \
     UPLOAD=2048M \
     DEBIAN_FRONTEND=noninteractive
