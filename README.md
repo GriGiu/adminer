@@ -1,4 +1,4 @@
-# grigiu/adminer
+## grigiu/adminer
 
 [Adminer](https://www.adminer.org/) is a full-featured database management tool for the web. It is a lightweight alternative to phpMyAdmin.
 

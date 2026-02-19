@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-LABEL maintainer="Gri Giu <grillo.giuseppe@gmail.com>"
+LABEL maintainer="GriGiu <grillo.giuseppe@gmail.com>"
 
 ENV ADMINER_VERSION=5.4.1 \
     MEMORY=256M \
